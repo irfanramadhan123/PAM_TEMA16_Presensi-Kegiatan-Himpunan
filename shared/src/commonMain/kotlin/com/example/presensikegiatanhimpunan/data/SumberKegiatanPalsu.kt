@@ -43,8 +43,64 @@ class SumberKegiatanPalsu : Sumber<Kegiatan> {
             deskripsi = "Latihan futsal bersama anggota himpunan.",
             lokasi = "Lapangan Futsal Kampus ITERA",
             tanggal = "2026-10-30"
+        ),
+        Kegiatan(
+            id = 6,
+            nama = "Open Recruitment Anggota Baru",
+            deskripsi = "Pendaftaran dan seleksi anggota baru himpunan.",
+            lokasi = "Gedung E ITERA",
+            tanggal = "2026-09-12",
+            status = StatusKegiatan.Selesai
+        ),
+        Kegiatan(
+            id = 7,
+            nama = "Pelatihan Kepemimpinan Dasar",
+            deskripsi = "Pelatihan soft skill untuk anggota baru himpunan.",
+            lokasi = "Ruang Seminar Gedung B",
+            tanggal = "2026-09-20",
+            status = StatusKegiatan.Selesai
+        ),
+        Kegiatan(
+            id = 8,
+            nama = "Kunjungan Industri",
+            deskripsi = "Kunjungan ke perusahaan mitra untuk menambah wawasan.",
+            lokasi = "Kawasan Industri Lampung",
+            tanggal = "2026-10-16",
+            status = StatusKegiatan.Berlangsung
+        ),
+        Kegiatan(
+            id = 9,
+            nama = "Malam Keakraban Anggota",
+            deskripsi = "Ajang mempererat kekeluargaan antaranggota himpunan.",
+            lokasi = "Villa Lembah Hijau",
+            tanggal = "2026-11-07"
+        ),
+        Kegiatan(
+            id = 10,
+            nama = "Donor Darah Bersama PMI",
+            deskripsi = "Kegiatan sosial donor darah bekerja sama dengan PMI.",
+            lokasi = "Aula Kampus ITERA",
+            tanggal = "2026-11-12"
+        ),
+        Kegiatan(
+            id = 11,
+            nama = "Festival Budaya Nusantara",
+            deskripsi = "Pentas seni dan budaya dari seluruh anggota himpunan.",
+            lokasi = "Lapangan Utama ITERA",
+            tanggal = "2026-10-19",
+            status = StatusKegiatan.Berlangsung
+        ),
+        Kegiatan(
+            id = 12,
+            nama = "Rapat Evaluasi Kepengurusan",
+            deskripsi = "Evaluasi program kerja dan laporan pertanggungjawaban.",
+            lokasi = "Ruang Rapat Himpunan",
+            tanggal = "2026-09-30",
+            status = StatusKegiatan.Selesai
         )
     ).associateBy { it.id }
+
+    fun semua(): List<Kegiatan> = dataKegiatan.values.toList()
 
     private fun buatKegiatanDefault(id: Int): Kegiatan = Kegiatan(
         id = id,
@@ -64,7 +120,7 @@ class SumberKegiatanPalsu : Sumber<Kegiatan> {
 
     override fun pantau(id: Int): Flow<Kegiatan> = flow {
         val basis = ambilBasis(id)
-        emit(basis)
+        emit(basis.copy(status = StatusKegiatan.Dijadwalkan))
         delay(1000)
         emit(basis.copy(status = StatusKegiatan.Berlangsung))
         delay(1000)
