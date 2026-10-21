@@ -1,37 +1,17 @@
 package com.example.presensikegiatanhimpunan
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.presensikegiatanhimpunan.data.SumberKegiatanPalsu
+import com.example.presensikegiatanhimpunan.ui.LayarUtama
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Cek platform")
-            }
-            AnimatedVisibility(showContent) {
-                val platform = remember { getPlatform() }
-                Text("Presensi Kegiatan Himpunan berjalan di ${platform.name}")
-            }
-        }
+        val kegiatan = remember { SumberKegiatanPalsu().semua() }
+        LayarUtama(kegiatan = kegiatan)
     }
 }

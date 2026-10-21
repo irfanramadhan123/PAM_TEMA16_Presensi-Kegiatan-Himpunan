@@ -24,3 +24,19 @@
 - `SumberKegiatanPalsu` menggunakan `delay()` untuk mensimulasikan proses asynchronous.
 - `pantau()` mengirim status berurutan melalui `emit()`: `Dijadwalkan` -> `Berlangsung` -> `Selesai`.
 - Pengujian menggunakan `runTest`, `kotlin.test`, dan virtual time sehingga tidak menunggu `delay()` secara nyata.
+
+## Riwayat Perubahan Minggu Ini (Modul 3)
+
+| Nama | File | Perubahan |
+| --- | --- | --- |
+| Muhammad Irfan Ramadhan (124140159) | `ui/DaftarKegiatan.kt` | Membuat daftar kegiatan dengan `LazyColumn` dan sorting tanggal. |
+| Muhammad Arfa Raditya (124140015) | `ui/KartuKegiatan.kt`, `ui/LabelStatusKegiatan.kt` | Membuat kartu kegiatan dan label status. |
+| Jeremi Pison Efrat Sianturi (124140195) | `ui/LayarUtama.kt`, `App.kt`, `gradle/libs.versions.toml`, `shared/build.gradle.kts`, `README.md` | Menyatukan layar utama, integrasi data, `FloatingActionButton`, dependensi ikon, dan dokumentasi. |
+
+## Ringkasan Modul 3
+
+- `LayarUtama` memakai `Scaffold` untuk menampilkan judul "Presensi Kegiatan Himpunan", keterangan jumlah kegiatan, daftar kegiatan, dan `FloatingActionButton` tambah kegiatan.
+- `App` mengisi layar dengan 12 data dari `SumberKegiatanPalsu.semua()` tanpa data tempelan.
+- `DaftarKegiatan` menampilkan data dengan `LazyColumn` dan mengurutkannya berdasarkan tanggal secara menurun.
+- `KartuKegiatan` menampilkan detail kegiatan dan `LabelStatusKegiatan` menampilkan status `Dijadwalkan`, `Berlangsung`, atau `Selesai`.
+- Build `:androidApp:assembleDebug` dan pengujian `SumberKegiatanPalsuTest` berhasil.
