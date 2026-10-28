@@ -40,3 +40,20 @@
 - `DaftarKegiatan` menampilkan data dengan `LazyColumn` dan mengurutkannya berdasarkan tanggal secara menurun.
 - `KartuKegiatan` menampilkan detail kegiatan dan `LabelStatusKegiatan` menampilkan status `Dijadwalkan`, `Berlangsung`, atau `Selesai`.
 - Build `:androidApp:assembleDebug` dan pengujian `SumberKegiatanPalsuTest` berhasil.
+
+## Peta Navigasi (Modul 5)
+
+```mermaid
+flowchart TD
+    subgraph NavigationBar
+        B[RuteBeranda<br/>Daftar kegiatan]
+        A[RuteAsisten<br/>Fitur AI, minggu 9]
+        P[RuteProfil<br/>Profil dan pengaturan]
+    end
+    B -- ketuk kartu --> D["RuteDetail(id)<br/>Detail satu kegiatan"]
+    B -- tombol + --> F[RuteForm<br/>Tambah kegiatan]
+    D -- ubah --> F
+```
+
+- Rute bertipe ada di `nav/Rute.kt`; detail membawa `id` kegiatan, bukan objeknya.
+- Pindah tab memakai `pindahTab()` (`nav/PindahTab.kt`) dengan `popUpTo` + `saveState`, `launchSingleTop`, dan `restoreState`.
