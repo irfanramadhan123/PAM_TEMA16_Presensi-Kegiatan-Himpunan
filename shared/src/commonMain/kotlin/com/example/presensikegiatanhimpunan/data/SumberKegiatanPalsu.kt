@@ -2,13 +2,17 @@ package com.example.presensikegiatanhimpunan.data
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.flow
 import com.example.presensikegiatanhimpunan.model.Kegiatan
 import com.example.presensikegiatanhimpunan.model.StatusKegiatan
 
 class SumberKegiatanPalsu : Sumber<Kegiatan> {
 
-    private val dataKegiatan: Map<Int, Kegiatan> = listOf(
+    private val _daftar = MutableStateFlow(listOf(
         Kegiatan(
             id = 1,
             nama = "Kader",
@@ -98,9 +102,27 @@ class SumberKegiatanPalsu : Sumber<Kegiatan> {
             tanggal = "2026-09-30",
             status = StatusKegiatan.Selesai
         )
-    ).associateBy { it.id }
+    ))
+    val daftar: StateFlow<List<Kegiatan>> = _daftar.asStateFlow()
 
-    fun semua(): List<Kegiatan> = dataKegiatan.values.toList()
+    fun semua(): List<Kegiatan> = _daftar.value
+
+    suspend fun tambah(nama: String, deskripsi: String?, lokasi: String, tanggal: String): Kegiatan {
+        delay(800)
+        var baru: Kegiatan? = null
+        _daftar.update { daftarLama ->
+            val kegiatan = Kegiatan(
+                id = (daftarLama.maxOfOrNull { it.id } ?: 0) + 1,
+                nama = nama,
+                deskripsi = deskripsi,
+                lokasi = lokasi,
+                tanggal = tanggal
+            )
+            baru = kegiatan
+            daftarLama + kegiatan
+        }
+        return baru!!
+    }
 
     private fun buatKegiatanDefault(id: Int): Kegiatan = Kegiatan(
         id = id,
@@ -111,7 +133,7 @@ class SumberKegiatanPalsu : Sumber<Kegiatan> {
     )
 
     private fun ambilBasis(id: Int): Kegiatan =
-        dataKegiatan[id] ?: buatKegiatanDefault(id)
+        _daftar.value.find { it.id == id } ?: buatKegiatanDefault(id)
 
     override suspend fun ambil(id: Int): Kegiatan {
         delay(1000)
